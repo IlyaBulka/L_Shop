@@ -1,20 +1,57 @@
 [
   {
     "id": "1",
-    "title": "Кокаинчик (Белый Перс)",
+    "title": "Кокаинчик",
     "description": "Очень бодрый кот, не дает спать по ночам.",
     "price": 5000,
-    "category": "Бодрящие",
-    "count": 3,
-    "imageUrl": "cat1.jpg"
+    "isAvailable": true,
+    "categories": ["Бодрящие", "Персы"],
+    "images": {
+      "preview": "images/cat1.jpg"
+    }
   },
   {
     "id": "2",
-    "title": "Мефедронка (Рыжий)",
+    "title": "Мефедронка",
     "description": "Ласковый, но чересчур активный.",
     "price": 3500,
-    "category": "Активные",
-    "count": 5,
-    "imageUrl": "cat2.jpg"
+    "isAvailable": true,
+    "categories": ["Активные"],
+    "images": {
+      "preview": "images/cat2.jpg"
+    }
+  },
+  {
+    "id": "3",
+    "title": "Скороход",
+    "description": "Бегает по стенам, не требует еды, только внимания.",
+    "price": 7000,
+    "isAvailable": true,
+    "categories": ["Бодрящие", "Сиамские"],
+    "images": {
+      "preview": "images/cat3.jpg"
+    }
+  },
+  {
+    "id": "4",
+    "title": "Дымок",
+    "description": "Спокойный как скала. Идеален для чилла.",
+    "price": 2000,
+    "isAvailable": true,
+    "categories": ["Успокаивающие", "Британцы"],
+    "images": {
+      "preview": "images/cat4.jpg"
+    }
+  },
+  {
+    "id": "5",
+    "title": "Кетаминчик",
+    "description": "Специфический вид, на любителя. Очень залипательный.",
+    "price": 4500,
+    "isAvailable": false,
+    "categories": ["Успокаивающие", "Сфинксы"],
+    "images": {
+      "preview": "images/cat5.jpg"
+    }
   }
 ]
