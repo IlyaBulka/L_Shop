@@ -1,3 +1,26 @@
+# Зависимости
 node_modules/
+
+# Сборка
 dist/
+server/dist/
+client/public/**/*.js
+client/public/**/*.js.map
+client/public/**/*.d.ts
+client/public/**/*.d.ts.map
+
+# Секреты и окружение
 .env
+.env.local
+.env.*.local
+
+# Логи и кэш
+*.log
+npm-debug.log*
+.cache/
+
+# Системный мусор
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
