@@ -1,0 +1,9 @@
+[
+  {
+    "id": "user_1",
+    "name": "Лена",
+    "password": "123",
+    "email": "test@mail.ru",
+    "phone": "80291112233"
+  }
+]
