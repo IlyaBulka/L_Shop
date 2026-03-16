@@ -4,8 +4,7 @@
       "id": "1",
       "basket": {
         "id": "b1",
-        "userId": "1",
-        "basket": []
+        "userId": "1"
       }
     }
   ]
