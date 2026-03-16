@@ -1,9 +1,9 @@
 [
   {
-    "id": "1",
-    "name": "Тест",
+    "id": "user_1",
+    "name": "Лена",
     "password": "123",
-    "email": "test@example.com",
-    "phone": "+79001234567"
+    "email": "test@mail.ru",
+    "phone": "80291112233"
   }
 ]

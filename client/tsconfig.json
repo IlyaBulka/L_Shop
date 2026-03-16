@@ -4,13 +4,13 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./public",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
     "types": [],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
