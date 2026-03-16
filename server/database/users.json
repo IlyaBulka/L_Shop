@@ -4,7 +4,6 @@
     "name": "Тест",
     "password": "123",
     "email": "test@example.com",
-    "phone": "+79001234567",
-    "basket": []
+    "phone": "+79001234567"
   }
 ]
