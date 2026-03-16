@@ -1,7 +1,11 @@
+
 import { Router } from 'express';
+import { getProducts } from './controllers/productController.js';
 import { getBasket, addToBasket } from './controllers/basketController.js';
 
-const router: Router = Router(); // Добавили явную типизацию, если нужно
+const router = Router();
+
+router.get('/api/products', getProducts);
 
 router.get('/basket', getBasket);
 router.post('/basket/add', addToBasket);
