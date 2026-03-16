@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L_Shop</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__container">
+        <a href="#" class="logo"><span class="logo__text">L_Shop</span></a>
+        <nav class="nav">
+          <a href="#" class="nav__link">Главная</a>
+          <a href="#delivery" class="nav__link">Оформить заказ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="app-content">
+      <h1 class="section-title">Каталог</h1>
+      <div id="products" class="products-grid"></div>
+    </main>
+
+    <section id="delivery-section" class="hidden">
+      <div id="delivery-page-root"></div>
+    </section>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

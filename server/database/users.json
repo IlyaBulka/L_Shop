@@ -1,11 +1,9 @@
-{
-  "users": [
-    {
-      "id": "1",
-      "basket": {
-        "id": "b1",
-        "userId": "1"
-      }
-    }
-  ]
-}
+[
+  {
+    "id": "user_1",
+    "name": "Лена",
+    "password": "123",
+    "email": "test@mail.ru",
+    "phone": "80291112233"
+  }
+]
