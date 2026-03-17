@@ -2,8 +2,10 @@ import type { Request, Response } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 import type { Product } from '../interfaces/product.js';
+import { fileURLToPath } from 'url';
 
-const DB_PATH = path.resolve('server/database/products.json');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DB_PATH = path.resolve(__dirname, '../../database/products.json');
 
 export const getProducts = async (req: Request, res: Response) => {
     try {
@@ -37,6 +39,7 @@ export const getProducts = async (req: Request, res: Response) => {
 
         res.json(products);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Ошибка сервера при загрузке продуктов' });
     }
 };
