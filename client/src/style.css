@@ -712,6 +712,53 @@ img {
     margin-bottom: var(--spacing-xl);
 }
 
+/* ===== Auth / профиль / гостевой доступ ===== */
+.auth-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: stretch;
+}
+
+.link-button {
+    padding: var(--spacing-sm);
+    color: var(--primary-dark);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.link-button:hover {
+    background: rgba(255, 159, 28, 0.12);
+    color: var(--primary);
+}
+
+.notice-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-2xl);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-2xl);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-card__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
 /* ===== Скелетон загрузки ===== */
 .skeleton {
     background: linear-gradient(
