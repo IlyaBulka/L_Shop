@@ -72,16 +72,11 @@ export class BasketModal {
     }
 
     private async updateOnServer(id: string | number, delta: number) {
-        const item = this.basketData?.basket.find(i => i.products.id == id);
-        if (item) {
-            // Для упрощения ТЗ: если мы хотим уменьшить, нам всё равно нужно 
-            // передать объект. На бэкенде мы допишем логику вычитания.
-            await fetch('/api/basket/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(item.products)
-            });
-            await this.init(); 
-        }
+        await fetch('/api/basket/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, delta })
+        });
+        await this.init();
     }
 }
