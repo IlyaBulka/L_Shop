@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import type {User} from '../interfaces/user.js';
+import { fileURLToPath } from 'url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dbPath = path.resolve(__dirname, '../../database/users.json');
 
 export const readUsers = (): User[] => {
