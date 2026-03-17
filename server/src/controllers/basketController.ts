@@ -10,7 +10,7 @@ import type { Basket, BasketProduct } from '../interfaces/basket.js';
 type BasketsDb = Basket[];
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dbPath = path.resolve(__dirname, '../../database/basket.json');
+const dbPath = path.resolve(__dirname, '../../database/baskets.json');
 
 // Чтение БД
 const readDb = (): BasketsDb => {

@@ -1,92 +1,116 @@
-import { getProducts } from './api/product.js';
-import { ProductCard } from './components/ProductCard.js';
-import type { Product } from './interfaces/product.js';
-
-export const renderCatalog = async (searchTerm: string = '') => {
-    const app = document.getElementById('app');
-    if (!app) return;
-
-    app.innerHTML = '<div class="loader">Ищем котиков...</div>';
-
-    const products = await getProducts({ search: searchTerm });
-
-    app.innerHTML = `
-        <div class="products-grid">
-            ${products.length > 0 
-                ? products.map(p => ProductCard(p)).join('') 
-                : '<p class="text-center">Котики по вашему запросу не нашлись :(</p>'}
-        </div>
-    `;
-};
-// Инизацлизация
-renderCatalog();
-/////////////////////////////
+import { ProductCard } from "./components/ProductCard.js";
+import { BasketModal } from "./components/BasketModal.js";
+import { createAuthForm } from "./components/AuthForm.js";
+import { DeliveryForm } from "./components/DeliveryForm.js";
 import type { Product } from "./interfaces/product.js";
-import { renderDeliveryPage } from "./pages/delivery.js";
 
-const productsEl = document.getElementById("products");
+// DOM Элементы
+const productsGrid = document.getElementById("products");
+const sections = {
+    catalog: document.getElementById("catalog-section"),
+    basket: document.getElementById("basket-section"),
+    delivery: document.getElementById("delivery-section"),
+    account: document.getElementById("account-section")
+};
+
+const authRoot = document.getElementById("auth-form-root");
 const deliveryRoot = document.getElementById("delivery-page-root");
-const appContent = document.getElementById("app-content");
-const deliverySection = document.getElementById("delivery-section");
 
-function renderProductCard(p: Product): string {
-  const preview = p.images?.preview ?? "";
-  const title = p.title ?? "";
-  const price = String(p.price ?? 0);
-  const categories = Array.isArray(p.categories) ? p.categories : [];
-  return `
-    <article class="product-card">
-      ${preview ? `<img class="product-card__image" src="/${preview}" alt="" />` : ""}
-      <div class="product-card__content">
-        <h3 class="product-card__title" data-title>${escapeHtml(title)}</h3>
-        <p class="product-card__price" data-price>${escapeHtml(price)} ₽</p>
-        <p>${escapeHtml(p.description ?? "")}</p>
-        ${categories.length ? `<div class="product-card__categories">${categories.map((c) => `<span class="product-card__category">${escapeHtml(c)}</span>`).join("")}</div>` : ""}
-      </div>
-    </article>
-  `;
+// Инициализация компонентов
+const basket = new BasketModal();
+
+/**
+ * Переключает видимость секций в зависимости от хэша
+ */
+function router() {
+    const hash = window.location.hash || "#";
+
+    // Скрываем все секции
+    Object.values(sections).forEach(s => s?.classList.add("hidden"));
+
+    if (hash === "#") {
+        sections.catalog?.classList.remove("hidden");
+        loadProducts();
+    } 
+    else if (hash === "#basket") {
+        sections.basket?.classList.remove("hidden");
+        basket.init(); // Загружаем данные корзины и рендерим
+    } 
+    else if (hash === "#delivery") {
+        sections.delivery?.classList.remove("hidden");
+        if (deliveryRoot) {
+            deliveryRoot.innerHTML = DeliveryForm();
+        }
+    } 
+    else if (hash === "#account") {
+        sections.account?.classList.remove("hidden");
+        if (authRoot && authRoot.innerHTML === "") {
+            authRoot.appendChild(createAuthForm());
+        }
+    }
 }
 
-function escapeHtml(s: string): string {
-  const div = document.createElement("div");
-  div.textContent = s;
-  return div.innerHTML;
+/**
+ * Загрузка товаров с сервера
+ */
+async function loadProducts() {
+    if (!productsGrid) return;
+
+    try {
+        const response = await fetch("/api/products");
+        if (!response.ok) throw new Error("Ошибка загрузки");
+        
+        const products: Product[] = await response.json();
+        
+        // Рендерим карточки, используя твой компонент
+        productsGrid.innerHTML = products.map(p => ProductCard(p)).join("");
+    } catch (error) {
+        productsGrid.innerHTML = `<p class="error">Не удалось загрузить товары. Попробуйте позже.</p>`;
+        console.error(error);
+    }
 }
 
-function showDelivery(): void {
-  if (deliverySection) deliverySection.classList.remove("hidden");
-  if (appContent) appContent.classList.add("hidden");
-  renderDeliveryPage();
+/**
+ * Глобальный обработчик кликов для кнопок "Добавить"
+ */
+document.addEventListener("click", async (e) => {
+    const target = e.target as HTMLElement;
+    
+    if (target.classList.contains("product-card__add-to-cart")) {
+        const productId = target.dataset.id;
+        if (!productId) return;
+
+        try {
+            const response = await fetch("/api/basket/add", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: productId })
+            });
+
+            if (response.ok) {
+                showNotification("Товар добавлен в корзину!");
+            }
+        } catch (err) {
+            console.error("Ошибка добавления:", err);
+        }
+    }
+});
+
+/**
+ * Показ простых уведомлений
+ */
+function showNotification(text: string) {
+    const container = document.getElementById("notification-container");
+    if (container) {
+        container.textContent = text;
+        container.classList.add("show");
+        setTimeout(() => container.classList.remove("show"), 3000);
+    }
 }
 
-function showMain(): void {
-  if (appContent) appContent.classList.remove("hidden");
-  if (deliverySection) deliverySection.classList.add("hidden");
-}
+// Слушатели событий
+window.addEventListener("hashchange", router);
+window.addEventListener("DOMContentLoaded", router);
 
-function onHashChange(): void {
-  if (window.location.hash === "#delivery") showDelivery();
-  else showMain();
-}
-
-function init(): void {
-  if (productsEl) {
-    fetch("/api/products")
-      .then((r) => r.json())
-      .then((items: Product[]) => {
-        productsEl.innerHTML = items.map(renderProductCard).join("");
-      })
-      .catch((e) => {
-        productsEl.innerHTML = "<p>Не удалось загрузить товары: " + escapeHtml(String(e.message)) + "</p>";
-      });
-  }
-
-  if (deliveryRoot) {
-    deliveryRoot.innerHTML = "";
-    window.addEventListener("hashchange", onHashChange);
-    if (window.location.hash === "#delivery") showDelivery();
-    else showMain();
-  }
-}
-
-init();
+// Экспорт для отладки (если нужно)
+export { router };

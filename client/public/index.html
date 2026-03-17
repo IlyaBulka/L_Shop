@@ -1,32 +1,60 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>L_Shop</title>
-  <link rel="stylesheet" href="/src/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L_Shop — Магазин для котиков</title>
+    <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="header__container">
-        <a href="#" class="logo"><span class="logo__text">L_Shop</span></a>
-        <nav class="nav">
-          <a href="#" class="nav__link">Главная</a>
-          <a href="#delivery" class="nav__link">Оформить заказ</a>
-        </nav>
-      </div>
-    </header>
+    <div class="container">
+        <header class="header">
+            <div class="header__container">
+                <a href="#" class="logo">
+                    <span class="logo__text">L_Shop</span>
+                </a>
+                <nav class="nav">
+                    <a href="#" class="nav__link">Главная</a>
+                    <a href="#basket" class="nav__link">Корзина</a>
+                    <a href="#delivery" class="nav__link">Доставка</a>
+                    <a href="#account" class="nav__link">Аккаунт</a>
+                </nav>
+            </div>
+        </header>
 
-    <main id="app-content">
-      <h1 class="section-title">Каталог</h1>
-      <div id="products" class="products-grid"></div>
-    </main>
+        <main id="app-wrapper">
+            
+            <section id="catalog-section" class="fade-in">
+                <h1 class="section-title">Наши товары</h1>
+                <div id="products" class="products-grid">
+                    <div class="product-card skeleton" style="height: 350px;"></div>
+                    <div class="product-card skeleton" style="height: 350px;"></div>
+                    <div class="product-card skeleton" style="height: 350px;"></div>
+                </div>
+            </section>
 
-    <section id="delivery-section" class="hidden">
-      <div id="delivery-page-root"></div>
-    </section>
-  </div>
-  <script type="module" src="/main.js"></script>
+            <section id="basket-section" class="hidden fade-in">
+                <div class="cart-page">
+                    </div>
+            </section>
+
+            <section id="delivery-section" class="hidden fade-in">
+                <div id="delivery-page-root">
+                    </div>
+            </section>
+
+            <section id="account-section" class="hidden fade-in">
+                <div class="registration-container">
+                    <h2 class="section-title">Авторизация</h2>
+                    <div id="auth-form-root"></div>
+                </div>
+            </section>
+
+        </main>
+
+        <div id="notification-container" class="notification"></div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
 </body>
 </html>
