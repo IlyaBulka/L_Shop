@@ -5,5 +5,12 @@
     "password": "123",
     "email": "test@mail.ru",
     "phone": "80291112233"
+  },
+  {
+    "id": "user_1773759400095",
+    "name": "Vlad Nekomkin",
+    "password": "admin",
+    "email": "nekomkin07@gmail.com",
+    "phone": "+375299432901"
   }
 ]
