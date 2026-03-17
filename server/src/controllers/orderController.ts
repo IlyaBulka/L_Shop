@@ -12,22 +12,30 @@ const basketsPath = path.resolve(__dirname, "../../database/baskets.json");
 
 export async function createOrder(req: Request, res: Response): Promise<void> {
   const body = req.body as OrderRequestBody;
-  const { userId, phone, email, address, productIds } = body;
+  const { address } = body;
 
-  if (userId === undefined || userId === null) {
-    res.status(400).json({ error: "Не указан пользователь (userId)" });
+  const sessionId = (req.cookies?.sessionId as string | undefined) ?? undefined;
+  if (!sessionId) {
+    res.status(401).json({ error: "Сначала войдите в аккаунт" });
     return;
   }
-  if (typeof phone !== "string" || !phone.trim()) {
-    res.status(400).json({ error: "Укажите телефон" });
+  const userId = sessionId;
+
+  if (address !== undefined && address !== null && typeof address !== "string") {
+    res.status(400).json({ error: "Адрес должен быть строкой" });
+    return;
+  }
+  const normalizedAddress = typeof address === "string" ? address.trim() : "";
+  if (!normalizedAddress) {
+    res.status(400).json({ error: "Укажите адрес доставки" });
     return;
   }
 
   try {
     const data = await fs.readFile(usersPath, "utf-8");
     const users: User[] = JSON.parse(data);
-    const userExists = users.some((u) => String(u.id) === String(userId));
-    if (!userExists) {
+    const user = users.find((u) => String(u.id) === String(userId));
+    if (!user) {
       res.status(404).json({ error: "Пользователь не найден" });
       return;
     }
@@ -41,18 +49,21 @@ export async function createOrder(req: Request, res: Response): Promise<void> {
     }
 
     const basketIndex = baskets.findIndex((b) => String(b.userId) === String(userId));
+    const existingBasket = basketIndex === -1 ? undefined : baskets[basketIndex];
+    const productIds =
+      existingBasket?.basket?.map((i) => i.products.id) ?? [];
+
     if (basketIndex === -1) {
       baskets.push({ id: String(Date.now()), userId, basket: [] });
-    } else {
-      const existingBasket = baskets[basketIndex];
-      if (existingBasket) existingBasket.basket = [];
+    } else if (existingBasket) {
+      existingBasket.basket = [];
     }
     await fs.writeFile(basketsPath, JSON.stringify(baskets, null, 2), "utf-8");
 
     res.status(200).json({
       success: true,
       message: "Заказ оформлен, корзина очищена",
-      order: { userId, phone, email, address, productIds },
+      order: { userId, phone: user.phone, email: user.email, address: normalizedAddress, productIds },
     });
   } catch (err) {
     console.error(err);
